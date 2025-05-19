@@ -8,6 +8,13 @@ function isManyOf(value: unknown): value is SlotsConfigManyOf {
 	return Boolean(value && typeof value === "object" && "manyOf" in value && Array.isArray(value.manyOf));
 }
 
+/**
+ * create slots and insert children
+ *
+ * @param children the react children passed as a prop
+ * @param config the configured slots
+ * @returns an object containing defined slots, with the children inserted into them
+ */
 export function makeSlots<Config extends SlotsConfig>(children: React.ReactNode, config: Config): Slots<Config> {
 	const configEntries = Object.entries(config);
 
@@ -82,16 +89,16 @@ export function makeSlots<Config extends SlotsConfig>(children: React.ReactNode,
 }
 
 // deno-lint-ignore no-explicit-any
-export type SlotsConfigItem = string | React.JSXElementConstructor<any>;
+type SlotsConfigItem = string | React.JSXElementConstructor<any>;
 
-export type SlotsConfigOneOf = { oneOf: Array<SlotsConfigItem> };
-export type SlotsConfigManyOf = { manyOf: Array<SlotsConfigItem> };
-export type SlotsConfig = Record<string, null | SlotsConfigOneOf | SlotsConfigManyOf>;
+type SlotsConfigOneOf = { oneOf: Array<SlotsConfigItem> };
+type SlotsConfigManyOf = { manyOf: Array<SlotsConfigItem> };
+type SlotsConfig = Record<string, null | SlotsConfigOneOf | SlotsConfigManyOf>;
 
 // deno-lint-ignore no-explicit-any
 type NonRecursiveReactNode = Exclude<Awaited<React.ReactNode>, Iterable<any>>;
 
-export type Slots<Config extends SlotsConfig> = {
+type Slots<Config extends SlotsConfig> = {
 	[K in keyof Config]?: Config[K] extends SlotsConfigManyOf ? Array<NonRecursiveReactNode> : NonRecursiveReactNode;
 };
 
