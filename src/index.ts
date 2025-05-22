@@ -89,7 +89,7 @@ export function makeSlots<Config extends SlotsConfig>(children: React.ReactNode,
 }
 
 // deno-lint-ignore no-explicit-any
-type SlotsConfigItem = string | React.JSXElementConstructor<any>;
+type SlotsConfigItem = keyof React.JSX.IntrinsicElements | React.JSXElementConstructor<any>;
 
 type SlotsConfigOneOf = { oneOf: Array<SlotsConfigItem> };
 type SlotsConfigManyOf = { manyOf: Array<SlotsConfigItem> };
