@@ -1,3 +1,5 @@
+[![JSR](https://jsr.io/badges/@niyrme/react-slots)](https://jsr.io/@niyrme/react-slots)
+
 # react-slots
 
 a tiny helper function to create simple slots
@@ -13,24 +15,22 @@ const SlotA: React.FC<{ children: React.ReactNode }> = (props) => (<React.Fragme
 const SlotB: React.FC<{ children: React.ReactNode }> = (props) => (<React.Fragment {...props} />);
 
 const MyComponent: React.FC<{ children: React.ReactNode }> = (props) => {
-	// using capitalized keys makes it possible to render the slots directly
-	// instead of having to wrap them into fragments (`<>{slots.MySlotA}</>`)
 	const slots = makeSlots(props.children, {
 		// accepts zero or one of type `SlotA`
-		MySlotA: { oneOf: [SlotA] },
+		mySlotA: { oneOf: [SlotA] },
 		// accepts zero or many of type `SlotB`
-		MySlotB: { manyOf: [SlotB] },
+		mySlotB: { manyOf: [SlotB] },
 		// accepts zero or many of `h1` and `h2`
-		Headings: { manyOf: ["h1", "h2"] },
+		headings: { manyOf: ["h1", "h2"] },
 		// accepts anything that did not match any defined tag/component
-		Content: null,
+		children: null,
 	});
 
 	return (
 		<>
-			<slots.MySlotA />
+			{slots.mySlotA}
 			<div>
-				<slots.Content />
+				{slots.children}
 			</div>
 		</>
 	);
